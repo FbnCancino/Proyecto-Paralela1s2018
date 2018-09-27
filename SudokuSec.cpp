@@ -33,9 +33,19 @@ void Mostrar(int matriz[][9]){
 		cout<<endl;
 	}
 }
-void RRevisarFila(int matriz[][9], int num, int fila, bool resp, int coaux){
+/*bool test_rows(int matriz[][9]){
+	int f,c,k;
+	int next_num=1;
+	bool rowReturn[9];
+
+//#pragma omp parallel for private(i)
+	for(f=0;f<9;f++)
+	{
+
+	}
+}*/
+/*void RRevisarFila(int matriz[][9], int num, int fila, bool resp, int coaux){
 	resp=true;
-	cout<<"Revisando fila: "<<endl;
 	for(int j=0;j<9;j++)
 	{
 		if(matriz[fila][j]==num)
@@ -47,13 +57,9 @@ void RRevisarFila(int matriz[][9], int num, int fila, bool resp, int coaux){
 	}
 	if(resp==false)
 	{
-		cout<<"La fila "<<fila<<" ya contiene el n° "<<num<<" en la posición: ["<<fila<<","<<coaux<<"]"<<endl;	
+		cout<<"La fila "<<fila<<" ya contiene el n° "<<num<<" en la posición: ["<<fila<<","<<coaux<<"]	<--	["<<fila<<";"<<coaux<<";"<<num<<"]"<<endl;	
 	}
-	else
-	{
-		cout<<"OK"<<endl;
-	}
-}
+}*/
 bool RevisarFila(int matriz[][9], int num, int fila){
 	bool resp=true;
 	for(int j=0;j<9;j++)
@@ -65,6 +71,22 @@ bool RevisarFila(int matriz[][9], int num, int fila){
 	}
 	return resp;
 }
+/*void RRevisarColumna(int matriz[][9], int num, int columna, bool resp, int fiaux){
+	resp=true;
+	for(int i=0;i<9;i++)
+	{
+		if(matriz[i][columna]==num)
+		{
+			resp=false;
+			fiaux=i;
+			break;
+		}
+	}
+	if(resp==false)
+	{
+		cout<<"La columna "<<columna<<" ya contiene el n° "<<num<<" en la posición: ["<<fiaux<<","<<columna<<"]	<--	["<<fiaux<<";"<<columna<<";"<<num<<"]"<<endl;	
+	}
+}*/
 bool RevisarColumna(int matriz[][9], int num, int columna)
 {
 	bool respp=true;
@@ -124,8 +146,8 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 	return ressp;
 }
 int main(int argc, char* argv[]){
-	bool verif3, verif2, resp;
-	int coaux;
+	bool verif3, verif2, resp, resp1, resp2, verif1;
+	int coaux,fiaux;
 	int subm[3][3];
 	int matriz[9][9];
 	for(int i=0;i<9;i++)
@@ -138,6 +160,7 @@ int main(int argc, char* argv[]){
 	string num;
 	if (argumento.substr(0,1)=="[")
 	{
+		cout<<endl;
 		while(argumento!="")
 		{
 			pos_i=argumento.substr(1,1);
@@ -145,25 +168,16 @@ int main(int argc, char* argv[]){
 			num=argumento.substr(5,1);
 			if(esNumero(pos_i) && esNumero(pos_j) && esNumero(num) && Conv_Num(pos_i)>=0 && Conv_Num(pos_i)<9 && Conv_Num(pos_j)>=0 && Conv_Num(pos_j)<9 && Conv_Num(num)>=1 && Conv_Num(num)<=9)
 			{
-				//verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j));
-				RRevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j),resp, coaux);
+				verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j));
 				verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_i));
 				verif3=RevisarSubmatriz(matriz,Conv_Num(pos_j),Conv_Num(pos_i),Conv_Num(num));
-				if(resp==true)
+				if(verif1)
 				{
-					if(verif2==false)
-					{
-						cout<<"La columna "<<pos_i<<" ya contiene el n° "<<num<<endl;
-					}
-					else
-					{
-						if(verif3==false)
+					if(verif2)
+			 		{
+						if(verif3)
 						{
-							cout<<"El numero "<<num<<" ya está contenido en la submatriz"<<endl;
-						}
-						else
-						{
-							matriz[Conv_Num(pos_j)][Conv_Num(pos_i)]=Conv_Num(num);
+							matriz[Conv_Num(pos_i)][Conv_Num(pos_j)]=Conv_Num(num);
 						}
 					}
 				}
