@@ -145,6 +145,46 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 	}
 	return ressp;
 }
+void llenadoRestante(int matriz[][9]){
+	cout<<"llenado"<<endl;
+	int n=1;
+	bool ver1,ver2,ver3;
+	for(int i=0;i<9;i++)
+	{
+		cout<<"for1"<<endl;
+		for(int j=0;j<9;j++)
+		{
+			cout<<"for2"<<endl;
+			if(matriz[i][j]==0)
+			{
+				cout<<"if1"<<endl;
+				while(n<10)
+				{
+					cout<<n<<endl;
+					ver1=RevisarFila(matriz,n,i);
+					ver2=RevisarColumna(matriz,n,j);
+					ver3=RevisarSubmatriz(matriz,i,j,n);
+					if(ver1)
+					{
+						cout<<"fila"<<endl;
+						if(ver2)
+						{
+							cout<<"columna"<<endl;
+							if(ver3)
+							{
+								cout<<"matriz"<<endl;
+								matriz[i][j]=n;
+								n++;
+								break;
+							}
+						}
+					}
+					n++;
+				}
+			}
+		}
+	}
+}
 int main(int argc, char* argv[]){
 	bool verif3, verif2, resp, resp1, resp2, verif1;
 	int coaux,fiaux;
@@ -168,9 +208,9 @@ int main(int argc, char* argv[]){
 			num=argumento.substr(5,1);
 			if(esNumero(pos_i) && esNumero(pos_j) && esNumero(num) && Conv_Num(pos_i)>=0 && Conv_Num(pos_i)<9 && Conv_Num(pos_j)>=0 && Conv_Num(pos_j)<9 && Conv_Num(num)>=1 && Conv_Num(num)<=9)
 			{
-				verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j));
-				verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_i));
-				verif3=RevisarSubmatriz(matriz,Conv_Num(pos_j),Conv_Num(pos_i),Conv_Num(num));
+				verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_i));
+				verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_j));
+				verif3=RevisarSubmatriz(matriz,Conv_Num(pos_i),Conv_Num(pos_j),Conv_Num(num));
 				if(verif1)
 				{
 					if(verif2)
@@ -194,5 +234,6 @@ int main(int argc, char* argv[]){
 	{
 		cout<<"Error de formato"<<endl;
 	}
+	llenadoRestante(matriz);
 	Mostrar(matriz);
 }
