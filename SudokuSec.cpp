@@ -33,6 +33,27 @@ void Mostrar(int matriz[][9]){
 		cout<<endl;
 	}
 }
+void RRevisarFila(int matriz[][9], int num, int fila, bool resp, int coaux){
+	resp=true;
+	cout<<"Revisando fila: "<<endl;
+	for(int j=0;j<9;j++)
+	{
+		if(matriz[fila][j]==num)
+		{
+			resp=false;
+			coaux=j;
+			break;
+		}
+	}
+	if(resp==false)
+	{
+		cout<<"La fila "<<fila<<" ya contiene el n° "<<num<<" en la posición: ["<<fila<<","<<coaux<<"]"<<endl;	
+	}
+	else
+	{
+		cout<<"OK"<<endl;
+	}
+}
 bool RevisarFila(int matriz[][9], int num, int fila){
 	bool resp=true;
 	for(int j=0;j<9;j++)
@@ -103,7 +124,8 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 	return ressp;
 }
 int main(int argc, char* argv[]){
-	bool verif1, verif2, verif3;
+	bool verif3, verif2, resp;
+	int coaux;
 	int subm[3][3];
 	int matriz[9][9];
 	for(int i=0;i<9;i++)
@@ -121,53 +143,29 @@ int main(int argc, char* argv[]){
 			pos_i=argumento.substr(1,1);
 			pos_j=argumento.substr(3,1);
 			num=argumento.substr(5,1);
-			if(esNumero(pos_i) && esNumero(pos_j) && esNumero(num))
+			if(esNumero(pos_i) && esNumero(pos_j) && esNumero(num) && Conv_Num(pos_i)>=0 && Conv_Num(pos_i)<9 && Conv_Num(pos_j)>=0 && Conv_Num(pos_j)<9 && Conv_Num(num)>=1 && Conv_Num(num)<=9)
 			{
-				if(Conv_Num(pos_i)>=0 && Conv_Num(pos_i)<9)
+				//verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j));
+				RRevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j),resp, coaux);
+				verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_i));
+				verif3=RevisarSubmatriz(matriz,Conv_Num(pos_j),Conv_Num(pos_i),Conv_Num(num));
+				if(resp==true)
 				{
-					if(Conv_Num(pos_j)>=0 && Conv_Num(pos_j)<9)
+					if(verif2==false)
 					{
-						if(Conv_Num(num)>=1 && Conv_Num(num)<=9)
-						{
-							verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_j));
-							verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_i));
-							verif3=RevisarSubmatriz(matriz,Conv_Num(pos_j),Conv_Num(pos_i),Conv_Num(num));
-							if(verif1==false)
-							{
-								cout<<"La fila "<<pos_j<<" ya contiene el n° "<<num<<endl;
-							}
-							else
-							{
-								if(verif2==false)
-								{
-									cout<<"La columna "<<pos_i<<" ya contiene el n° "<<num<<endl;
-								}
-								else
-								{
-									if(verif3==false)
-									{
-										cout<<"El numero "<<num<<" ya está contenido en la submatriz"<<endl;
-									}
-									else
-									{
-										matriz[Conv_Num(pos_j)][Conv_Num(pos_i)]=Conv_Num(num);
-									}
-								}
-							}
-						}
-						else
-						{
-							cout<<"Error de formato"<<endl;
-						}
+						cout<<"La columna "<<pos_i<<" ya contiene el n° "<<num<<endl;
 					}
 					else
 					{
-						cout<<"Error de formato"<<endl;
+						if(verif3==false)
+						{
+							cout<<"El numero "<<num<<" ya está contenido en la submatriz"<<endl;
+						}
+						else
+						{
+							matriz[Conv_Num(pos_j)][Conv_Num(pos_i)]=Conv_Num(num);
+						}
 					}
-				}
-				else
-				{
-					cout<<"Error de formato"<<endl;
 				}
 			}
 			else
