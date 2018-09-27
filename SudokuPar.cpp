@@ -111,7 +111,7 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 void llenadoRestante(int matriz[][9]){
 	
 	bool ver1,ver2,ver3;
-	int target_thread_num = 16;
+	int target_thread_num = 4;
 	omp_set_num_threads(target_thread_num);
 	unsigned long times[target_thread_num];
 	for(int i=0;i<9;i++)
@@ -152,17 +152,11 @@ void llenadoRestante(int matriz[][9]){
 								ver3=RevisarSubmatriz(matriz,i,j,n);
 							}
     				}
-					if(ver1)
+					if(ver1 && ver2 && ver3)
 					{
-						if(ver2)
-						{
-							if(ver3)
-							{
-								matriz[i][j]=n;
-								n++;
-								break;
-							}
-						}
+						matriz[i][j]=n;
+						n++;
+						break;
 					}
 					n++;
 				}
@@ -214,15 +208,9 @@ int main(int argc, char* argv[]){
 				
 				
 				
-				if(verif1)
+				if(verif1 && verif2 && verif3)
 				{
-					if(verif2)
-			 		{
-						if(verif3)
-						{
-							matriz[Conv_Num(pos_i)][Conv_Num(pos_j)]=Conv_Num(num);
-						}
-					}
+					matriz[Conv_Num(pos_i)][Conv_Num(pos_j)]=Conv_Num(num);
 				}
 			}
 			else
