@@ -255,4 +255,21 @@ int main(int argc, char* argv[]){
 	}
 	llenadoRestante(matriz);
 	Mostrar(matriz);
+	ofstream archivo;
+	archivo.open("solucion.csv");
+	for(int g=0;g<9;g++)
+	{
+		for(int h=0;h<9;h++)
+		{
+			if(h<8)
+			{
+				archivo<<matriz[g][h]<<",";
+			}
+			else
+			{
+				archivo<<matriz[g][h]<<"\n";
+			}
+		}
+	}
+	archivo.close();
 }
