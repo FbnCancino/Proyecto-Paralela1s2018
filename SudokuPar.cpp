@@ -8,6 +8,8 @@
 #include <iomanip>
 using namespace std;
 
+unsigned t0, t1;
+
 int Conv_Num(string valor){   
 	int n = atoi(valor.c_str()); 
     return n; 
@@ -107,15 +109,13 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 	return ressp;
 }
 void llenadoRestante(int matriz[][9]){
-	cout<<"llenado"<<endl;
 	
 	bool ver1,ver2,ver3;
-	int target_thread_num = 4;
+	int target_thread_num = 16;
 	omp_set_num_threads(target_thread_num);
 	unsigned long times[target_thread_num];
 	for(int i=0;i<9;i++)
 	{
-		//cout<<"for1"<<endl;
 		for(int j=0;j<9;j++)
 		{
 			cout<<endl;
@@ -131,20 +131,14 @@ void llenadoRestante(int matriz[][9]){
 						#pragma omp section
         					{
         						int thread_id = omp_get_thread_num();
-   								//times[thread_id] = start_time();
 
    								cout << "Thread number: " << omp_get_thread_num() << endl;
-
-   								//times[thread_id] = end_time();
-        						//cout<<"soy el proce 1"<<endl;
         						ver1=RevisarFila(matriz,n,i);
 						
         					}
 						#pragma omp section
         					{
-        						//cout<<"soy el proce 2"<<endl;
         						int thread_id = omp_get_thread_num();
-   								//times[thread_id] = start_time();
 
    								cout << "Thread number: " << omp_get_thread_num() << endl;
         						ver2=RevisarColumna(matriz,n,j);
@@ -152,26 +146,18 @@ void llenadoRestante(int matriz[][9]){
 					
 						#pragma omp section
 							{
-								//cout<<"soy el proce 3"<<endl;
 								int thread_id = omp_get_thread_num();
-   								//times[thread_id] = start_time();
 
    								cout << "Thread number: " << omp_get_thread_num() << endl;
 								ver3=RevisarSubmatriz(matriz,i,j,n);
 							}
     				}
-					
-					
-					
 					if(ver1)
 					{
-						//cout<<"fila"<<endl;
 						if(ver2)
 						{
-							//cout<<"columna"<<endl;
 							if(ver3)
 							{
-								//cout<<"matriz"<<endl;
 								matriz[i][j]=n;
 								n++;
 								break;
@@ -189,6 +175,7 @@ int main(int argc, char* argv[]){
 	int coaux,fiaux;
 	int subm[3][3];
 	int matriz[9][9];
+	t0=clock();
 	for(int i=0;i<9;i++)
 		for(int j=0;j<9;j++)
 			matriz[i][j]=0;
@@ -211,18 +198,15 @@ int main(int argc, char* argv[]){
     			{
 					#pragma omp section
         			{
-        				//cout<<"soy el proce 1"<<endl;
 						verif1=RevisarFila(matriz,Conv_Num(num),Conv_Num(pos_i));
         			}
 					#pragma omp section
         			{
-        				//cout<<"soy el proce 2"<<endl;
         				verif2=RevisarColumna(matriz,Conv_Num(num),Conv_Num(pos_j));
         			}
 					
 					#pragma omp section
 					{
-						//cout<<"soy el proce 3"<<endl;
 						verif3=RevisarSubmatriz(matriz,Conv_Num(pos_i),Conv_Num(pos_j),Conv_Num(num));
 					}
     			}
@@ -255,6 +239,9 @@ int main(int argc, char* argv[]){
 	}
 	llenadoRestante(matriz);
 	Mostrar(matriz);
+	t1=clock();
+	double time = (double(t1-t0)/CLOCKS_PER_SEC);
+    cout << "Execution Time: " << time << endl;
 	ofstream archivo;
 	archivo.open("solucion.csv");
 	for(int g=0;g<9;g++)
