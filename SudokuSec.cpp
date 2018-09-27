@@ -33,33 +33,7 @@ void Mostrar(int matriz[][9]){
 		cout<<endl;
 	}
 }
-/*bool test_rows(int matriz[][9]){
-	int f,c,k;
-	int next_num=1;
-	bool rowReturn[9];
 
-//#pragma omp parallel for private(i)
-	for(f=0;f<9;f++)
-	{
-
-	}
-}*/
-/*void RRevisarFila(int matriz[][9], int num, int fila, bool resp, int coaux){
-	resp=true;
-	for(int j=0;j<9;j++)
-	{
-		if(matriz[fila][j]==num)
-		{
-			resp=false;
-			coaux=j;
-			break;
-		}
-	}
-	if(resp==false)
-	{
-		cout<<"La fila "<<fila<<" ya contiene el n° "<<num<<" en la posición: ["<<fila<<","<<coaux<<"]	<--	["<<fila<<";"<<coaux<<";"<<num<<"]"<<endl;	
-	}
-}*/
 bool RevisarFila(int matriz[][9], int num, int fila){
 	bool resp=true;
 	for(int j=0;j<9;j++)
@@ -71,22 +45,7 @@ bool RevisarFila(int matriz[][9], int num, int fila){
 	}
 	return resp;
 }
-/*void RRevisarColumna(int matriz[][9], int num, int columna, bool resp, int fiaux){
-	resp=true;
-	for(int i=0;i<9;i++)
-	{
-		if(matriz[i][columna]==num)
-		{
-			resp=false;
-			fiaux=i;
-			break;
-		}
-	}
-	if(resp==false)
-	{
-		cout<<"La columna "<<columna<<" ya contiene el n° "<<num<<" en la posición: ["<<fiaux<<","<<columna<<"]	<--	["<<fiaux<<";"<<columna<<";"<<num<<"]"<<endl;	
-	}
-}*/
+
 bool RevisarColumna(int matriz[][9], int num, int columna)
 {
 	bool respp=true;
@@ -147,7 +106,7 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 }
 void llenadoRestante(int matriz[][9]){
 	cout<<"llenado"<<endl;
-	int n=1;
+	
 	bool ver1,ver2,ver3;
 	for(int i=0;i<9;i++)
 	{
@@ -158,6 +117,7 @@ void llenadoRestante(int matriz[][9]){
 			if(matriz[i][j]==0)
 			{
 				cout<<"if1"<<endl;
+				int n=1;
 				while(n<10)
 				{
 					cout<<n<<endl;
