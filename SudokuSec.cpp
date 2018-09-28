@@ -3,8 +3,11 @@
 #include <cstdlib>
 #include <string>
 #include <time.h>
+#include <ctime>
 
 using namespace std;
+
+unsigned t0, t1;
 
 int Conv_Num(string valor){   
 	int n = atoi(valor.c_str()); 
@@ -105,34 +108,26 @@ bool RevisarSubmatriz(int matriz [][9], int fila, int columna, int num)
 	return ressp;
 }
 void llenadoRestante(int matriz[][9]){
-	cout<<"llenado"<<endl;
 	
 	bool ver1,ver2,ver3;
 	for(int i=0;i<9;i++)
 	{
-		cout<<"for1"<<endl;
 		for(int j=0;j<9;j++)
 		{
-			cout<<"for2"<<endl;
 			if(matriz[i][j]==0)
 			{
-				cout<<"if1"<<endl;
 				int n=1;
 				while(n<10)
 				{
-					cout<<n<<endl;
 					ver1=RevisarFila(matriz,n,i);
 					ver2=RevisarColumna(matriz,n,j);
 					ver3=RevisarSubmatriz(matriz,i,j,n);
 					if(ver1)
 					{
-						cout<<"fila"<<endl;
 						if(ver2)
 						{
-							cout<<"columna"<<endl;
 							if(ver3)
 							{
-								cout<<"matriz"<<endl;
 								matriz[i][j]=n;
 								n++;
 								break;
@@ -146,6 +141,7 @@ void llenadoRestante(int matriz[][9]){
 	}
 }
 int main(int argc, char* argv[]){
+	t0=clock();
 	bool verif3, verif2, resp, resp1, resp2, verif1;
 	int coaux,fiaux;
 	int subm[3][3];
@@ -213,4 +209,7 @@ int main(int argc, char* argv[]){
 		}
 	}
 	archivo.close();
+	t1=clock();
+	double time = (double(t1-t0)/CLOCKS_PER_SEC);
+    cout << "Execution Time: " << time << endl;
 }
